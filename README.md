@@ -16,12 +16,3 @@ Una herramienta en **Python** que permite dividir una red principal en subredes 
 ## 🛠️ Requisitos
 
 - **Python 3.6+**
-
----
-
-## 📦 Instalación
-
-1. Clona el repositorio:
-   ```bash
-   
-   git clone https://github.com/Yokonad/calculadora-vlsm.git
