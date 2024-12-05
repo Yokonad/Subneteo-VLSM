@@ -3,19 +3,18 @@ import ipaddress
 # Validar si una dirección IP es válida
 def validar_ip(ip):
     try:
-        ipaddress.ip_network(ip, strict=False)
+        ipaddress.IPv4Address(ip)
         return True
     except ValueError:
         return False
 
-# Ajustar la dirección IP al inicio del bloque necesario según el prefijo
-def ajustar_direccion(ip_actual, prefijo):
-    ip_red = ipaddress.ip_network(f"{ip_actual}/{prefijo}", strict=False)
-    return ip_red.network_address
+# Validar si un prefijo es válido
+def validar_prefijo(prefijo):
+    return 1 <= prefijo <= 30
 
 # Calcular las subredes según el método VLSM
-def calcular_vlsm(ip_red, prefijos_subredes):
-    red_principal = ipaddress.ip_network(ip_red, strict=False)
+def calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes):
+    red_principal = ipaddress.ip_network(f"{ip_base}/{prefijo_principal}", strict=False)
     subredes_generadas = []
     red_actual = red_principal.network_address
 
@@ -67,12 +66,24 @@ def main():
     print("=" * 60)
     print("\033[1;32m          Calculadora de Subneteo VLSM\033[0m")
     print("=" * 60)
+    
     while True:
-        ip_red = input("Ingrese la IP inicial para el subneteo VLSM con el prefijo (ejemplo: 192.168.1.0/24): ")
-        if validar_ip(ip_red):
+        ip_base = input("Ingrese la dirección IP base : ")
+        if validar_ip(ip_base):
             break
         else:
             print("\033[1;31mError: La IP ingresada no es válida.\033[0m")
+    
+    while True:
+        try:
+            prefijo_principal = int(input("Ingrese el prefijo principal de la red : "))
+            if validar_prefijo(prefijo_principal):
+                break
+            else:
+                print("\033[1;31mError: El prefijo debe estar entre 1 y 30.\033[0m")
+        except ValueError:
+            print("\033[1;31mError: Ingrese un número entero válido.\033[0m")
+    
     while True:
         try:
             cantidad_subredes = int(input("¿Cuántas subredes desea calcular?: "))
@@ -82,19 +93,21 @@ def main():
                 break
         except ValueError:
             print("\033[1;31mError: Ingrese un número entero válido.\033[0m")
+    
     prefijos_subredes = []
     for i in range(cantidad_subredes):
         while True:
             try:
-                prefijo = int(input(f"Ingrese el prefijo de la subred {i + 1} (ejemplo: 25): "))
-                if prefijo < 1 or prefijo > 30:
-                    print("\033[1;31mError: El prefijo debe estar entre 1 y 30.\033[0m")
-                else:
+                prefijo = int(input(f"Ingrese el prefijo para la subred {i + 1} : "))
+                if validar_prefijo(prefijo):
                     prefijos_subredes.append(prefijo)
                     break
+                else:
+                    print("\033[1;31mError: El prefijo debe estar entre 1 y 30.\033[0m")
             except ValueError:
                 print("\033[1;31mError: Ingrese un número entero válido.\033[0m")
-    resultado = calcular_vlsm(ip_red, prefijos_subredes)
+    
+    resultado = calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes)
     imprimir_resultados(resultado)
 
 if __name__ == "__main__":
