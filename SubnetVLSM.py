@@ -1,6 +1,5 @@
 import ipaddress
 
-# Validar si una dirección IP es válida
 def validar_ip(ip):
     try:
         ipaddress.IPv4Address(ip)
@@ -8,11 +7,9 @@ def validar_ip(ip):
     except ValueError:
         return False
 
-# Validar si un prefijo es válido
 def validar_prefijo(prefijo):
     return 1 <= prefijo <= 30
 
-# Calcular las subredes según el método VLSM
 def calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes):
     red_principal = ipaddress.ip_network(f"{ip_base}/{prefijo_principal}", strict=False)
     subredes_generadas = []
@@ -24,11 +21,9 @@ def calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes):
         except ValueError:
             return f"Error: No se puede crear una subred válida desde {red_actual} con prefijo /{prefijo}."
         
-        # Verificar que la subred está contenida en la red principal
         if not subred.subnet_of(red_principal):
             return f"Error: La subred {subred} no está dentro de la red principal {red_principal}."
 
-        # Agregar subred a la lista
         subredes_generadas.append({
             "Subred": f"Subred {i + 1}",
             "Dirección de red": str(subred.network_address),
@@ -39,12 +34,10 @@ def calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes):
             "Hosts disponibles": (2 ** (32 - prefijo)) - 2
         })
         
-        # Calcular la siguiente red inicial: Continuidad garantizada
         red_actual = subred.broadcast_address + 1
 
     return subredes_generadas
 
-# Imprimir los resultados de forma estética
 def imprimir_resultados(resultado):
     if isinstance(resultado, str):
         print("\n", resultado)
@@ -61,7 +54,6 @@ def imprimir_resultados(resultado):
             print(f"  \033[1;33mHosts disponibles:\033[0m {subred['Hosts disponibles']}")
             print("-" * 60)
 
-# Menú principal
 def main():
     print("=" * 60)
     print("\033[1;32m          Calculadora de Subneteo VLSM\033[0m")
