@@ -1,34 +1,31 @@
 
-# Calculadora de Subneteo VLSM en Python
+# 🖥️ **Calculadora de Subneteo VLSM en Python** 🌐
 
-## Descripción
+## 📜 Descripción
 
-Este proyecto es una **Calculadora de Subneteo VLSM** desarrollada en **Python**. Su objetivo es ayudar a los usuarios a calcular subredes utilizando **VLSM (Variable Length Subnet Masking)**. VLSM permite crear subredes de tamaños variables, lo que optimiza el uso del espacio de direcciones IP en una red.
+Este proyecto es una **calculadora de subneteo VLSM (Variable Length Subnet Mask)** implementada en **Python**. La herramienta permite realizar cálculos detallados para dividir una red principal en subredes más pequeñas, de manera eficiente y adaptada a los requerimientos de cada caso.
 
-El programa permite a los usuarios ingresar una dirección IP base, un prefijo principal y los prefijos de las subredes que desean calcular. A partir de esta información, el código genera y muestra los detalles de las subredes, como:
+**Características principales**:
+- Validación de direcciones IP y prefijos.
+- Cálculo dinámico de subredes con tamaños variados.
+- Presentación clara de los resultados, incluyendo rangos de hosts, máscaras de red, direcciones de red, y más.
 
-- Dirección de red
-- Máscara de red
-- Rango de hosts
-- Dirección de broadcast
-- Número de hosts disponibles
+## 🧑‍💻 **¿Qué hace el código?**
 
-## Características
+El programa realiza los siguientes pasos:
+1. **Validación de IP**: Verifica que la IP ingresada sea válida (dirección IPv4).
+2. **Validación de Prefijo**: Asegura que el prefijo (máscara de red) esté dentro del rango permitido (1 a 30).
+3. **Cálculo de Subredes**: Calcula las subredes necesarias con el prefijo proporcionado y las subdivide en base a los requerimientos de cada subred.
+4. **Resultados**: Muestra información sobre cada subred generada, incluyendo:
+    - Dirección de red
+    - Máscara de red
+    - Rango de hosts
+    - Dirección de broadcast
+    - Hosts disponibles
 
-- **Validación de entradas:** Asegura que las direcciones IP y los prefijos ingresados sean válidos.
-- **Cálculo automático de subredes:** Calcula subredes de diferentes tamaños usando VLSM.
-- **Detalles de subredes generadas:** Muestra información completa sobre las subredes creadas.
-- **Interactividad:** Permite al usuario interactuar con el programa para ingresar los parámetros necesarios.
+## 📝 **Código Puntual**
 
-## Requisitos
-
-- Python 3.x o superior.
-- La librería `ipaddress` de Python para manejar direcciones IP y redes.
-
-## Funciones
-
-### 1. Validación de IP
-Valida si la dirección IP proporcionada es válida en formato IPv4.
+### 1. Validación de la dirección IP
 
 ```python
 def validar_ip(ip):
@@ -39,128 +36,61 @@ def validar_ip(ip):
         return False
 ```
 
-### 2. Validación de Prefijo
-Verifica que el prefijo de la red esté dentro del rango permitido, entre 1 y 30.
+> Esta función verifica si la dirección IP proporcionada es válida (IPv4).
+
+### 2. Validación del Prefijo
 
 ```python
 def validar_prefijo(prefijo):
     return 1 <= prefijo <= 30
 ```
 
-### 3. Cálculo de Subredes VLSM
-Calcula las subredes a partir de la dirección IP base, el prefijo principal y los prefijos de las subredes. El resultado incluye la dirección de red, máscara de red, el prefijo, el rango de hosts, y la dirección de broadcast.
+> Valida que el prefijo esté entre 1 y 30, que es el rango permitido en IPv4.
+
+### 3. Cálculo de Subredes
 
 ```python
 def calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes):
     red_principal = ipaddress.ip_network(f"{ip_base}/{prefijo_principal}", strict=False)
     subredes_generadas = []
     red_actual = red_principal.network_address
-
-    for i, prefijo in enumerate(prefijos_subredes):
-        try:
-            subred = ipaddress.ip_network(f"{red_actual}/{prefijo}", strict=False)
-        except ValueError:
-            return f"Error: No se puede crear una subred válida desde {red_actual} con prefijo /{prefijo}."
-        
-        if not subred.subnet_of(red_principal):
-            return f"Error: La subred {subred} no está dentro de la red principal {red_principal}."
-
-        subredes_generadas.append({
-            "Subred": f"Subred {i + 1}",
-            "Dirección de red": str(subred.network_address),
-            "Máscara de red": str(subred.netmask),
-            "Prefijo": f"/{subred.prefixlen}",
-            "Rango de hosts": f"{list(subred.hosts())[0]} - {list(subred.hosts())[-1]}",
-            "Broadcast": str(subred.broadcast_address),
-            "Hosts disponibles": (2 ** (32 - prefijo)) - 2
-        })
-        
-        red_actual = subred.broadcast_address + 1
-
-    return subredes_generadas
+    ...
 ```
 
+> Aquí se calculan las subredes con base en la red principal y los prefijos de las subredes solicitadas.
+
 ### 4. Impresión de Resultados
-Imprime los resultados de las subredes generadas, mostrando todos los detalles relevantes como la dirección de red, máscara, prefijo, etc.
 
 ```python
 def imprimir_resultados(resultado):
     if isinstance(resultado, str):
-        print("\n", resultado)
+        print("
+", resultado)
     else:
-        print("\nResultados de la Calculadora de Subneteo VLSM:")
+        print("
+Resultados de la Calculadora de Subneteo VLSM:")
         print("=" * 60)
         for subred in resultado:
             print(f"Subred: {subred['Subred']}")
             print(f"  Dirección de red: {subred['Dirección de red']}")
-            print(f"  Máscara de red: {subred['Máscara de red']}")
-            print(f"  Prefijo: {subred['Prefijo']}")
-            print(f"  Rango de hosts: {subred['Rango de hosts']}")
-            print(f"  Broadcast: {subred['Broadcast']}")
-            print(f"  Hosts disponibles: {subred['Hosts disponibles']}")
-            print("-" * 60)
+            ...
 ```
 
-### 5. Función Principal
-La función principal ejecuta el programa, permite al usuario ingresar la IP base, el prefijo principal y los prefijos de las subredes. Luego, calcula y muestra los resultados de las subredes.
+> Muestra los resultados en un formato claro y fácil de entender.
 
-```python
-def main():
-    while True:
-        print("=" * 60)
-        print("\033[1;32m          Calculadora de Subneteo VLSM\033[0m")
-        print("=" * 60)
-        
-        ip_base = input("Ingrese la dirección IP base: ")
-        if not validar_ip(ip_base):
-            print("\033[1;31mError: La IP ingresada no es válida.\033[0m")
-            continue
-        
-        while True:
-            try:
-                prefijo_principal = int(input("Ingrese el prefijo principal de la red: "))
-                if validar_prefijo(prefijo_principal):
-                    break
-                else:
-                    print("\033[1;31mError: El prefijo debe estar entre 1 y 30.\033[0m")
-            except ValueError:
-                print("\033[1;31mError: Ingrese un número entero válido.\033[0m")
-        
-        while True:
-            try:
-                cantidad_subredes = int(input("¿Cuántas subredes desea calcular?: "))
-                if cantidad_subredes < 1:
-                    print("\033[1;31mError: Debe ingresar al menos una subred.\033[0m")
-                else:
-                    break
-            except ValueError:
-                print("\033[1;31mError: Ingrese un número entero válido.\033[0m")
-        
-        prefijos_subredes = []
-        for i in range(cantidad_subredes):
-            while True:
-                try:
-                    prefijo = int(input(f"Ingrese el prefijo para la subred {i + 1}: "))
-                    if validar_prefijo(prefijo):
-                        prefijos_subredes.append(prefijo)
-                        break
-                    else:
-                        print("\033[1;31mError: El prefijo debe estar entre 1 y 30.\033[0m")
-                except ValueError:
-                    print("\033[1;31mError: Ingrese un número entero válido.\033[0m")
-        
-        resultado = calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes)
-        imprimir_resultados(resultado)
-        
-        salir = input("\n¿Desea realizar otro cálculo? (c para continuar, s para salir): ")
-        if salir.lower() == "s":
-            print("\033[1;32mSaliendo del programa...\033[0m")
-            break
+## 💡 **Cómo Usarlo**
 
-if __name__ == "__main__":
-    main()
-```
+1. **Paso 1**: Ingresar la dirección IP base.
+2. **Paso 2**: Introducir el prefijo principal (máscara de red) para la red.
+3. **Paso 3**: Definir la cantidad de subredes y sus respectivos prefijos.
+4. **Paso 4**: El programa calculará y mostrará la información de las subredes generadas.
 
-## License
+## 🚀 **Licencia**
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Este proyecto se distribuye bajo la licencia [MIT](https://choosealicense.com/licenses/mit/).
+
+---
+
+👨‍💻 **Hecho por**: [Tu nombre o tu equipo] ✨
+
+¡Disfruta del uso de esta calculadora de subneteo VLSM! 🚀
