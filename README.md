@@ -91,6 +91,6 @@ Este proyecto se distribuye bajo la licencia [MIT](https://choosealicense.com/li
 
 ---
 
-👨‍💻 **Hecho por**: [Tu nombre o tu equipo] ✨
+👨‍💻 **Hecho por**: Dan Ramos Reynaldo ✨
 
 ¡Disfruta del uso de esta calculadora de subneteo VLSM! 🚀
