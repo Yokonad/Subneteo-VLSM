@@ -3,12 +3,32 @@
 
 ## Descripción
 
-Este proyecto es una calculadora de subneteo utilizando VLSM (Variable Length Subnet Masking) en Python. El programa permite calcular subredes a partir de una red base con un prefijo principal y subredes con prefijos variables. El objetivo es obtener detalles de las subredes generadas, como la dirección de red, máscara de red, rango de hosts, y más.
+Este proyecto es una **Calculadora de Subneteo VLSM** desarrollada en **Python**. Su objetivo es ayudar a los usuarios a calcular subredes utilizando **VLSM (Variable Length Subnet Masking)**. VLSM permite crear subredes de tamaños variables, lo que optimiza el uso del espacio de direcciones IP en una red.
+
+El programa permite a los usuarios ingresar una dirección IP base, un prefijo principal y los prefijos de las subredes que desean calcular. A partir de esta información, el código genera y muestra los detalles de las subredes, como:
+
+- Dirección de red
+- Máscara de red
+- Rango de hosts
+- Dirección de broadcast
+- Número de hosts disponibles
+
+## Características
+
+- **Validación de entradas:** Asegura que las direcciones IP y los prefijos ingresados sean válidos.
+- **Cálculo automático de subredes:** Calcula subredes de diferentes tamaños usando VLSM.
+- **Detalles de subredes generadas:** Muestra información completa sobre las subredes creadas.
+- **Interactividad:** Permite al usuario interactuar con el programa para ingresar los parámetros necesarios.
+
+## Requisitos
+
+- Python 3.x o superior.
+- La librería `ipaddress` de Python para manejar direcciones IP y redes.
 
 ## Funciones
 
 ### 1. Validación de IP
-Esta función valida si la dirección IP proporcionada es una IP válida en formato IPv4.
+Valida si la dirección IP proporcionada es válida en formato IPv4.
 
 ```python
 def validar_ip(ip):
@@ -28,7 +48,7 @@ def validar_prefijo(prefijo):
 ```
 
 ### 3. Cálculo de Subredes VLSM
-Calcula las subredes a partir de la dirección IP base, el prefijo principal y los prefijos de las subredes. El resultado incluye la dirección de red, la máscara de red, el prefijo, el rango de hosts y la dirección de broadcast.
+Calcula las subredes a partir de la dirección IP base, el prefijo principal y los prefijos de las subredes. El resultado incluye la dirección de red, máscara de red, el prefijo, el rango de hosts, y la dirección de broadcast.
 
 ```python
 def calcular_vlsm(ip_base, prefijo_principal, prefijos_subredes):
