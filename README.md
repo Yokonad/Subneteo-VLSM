@@ -1,18 +1,19 @@
-#  Calculadora VLSM
+# Calculadora de Subneteo VLSM en Python
+![Logo](https://i.imgur.com/4Yi4QWM.png)
 
-Una herramienta en **Python** que permite dividir una red principal en subredes más pequeñas utilizando **VLSM** (Variable Length Subnet Masking). Optimiza el uso de direcciones IP, garantizando que las subredes sean **contiguas**.
+## Descripción
 
----
+Este proyecto es una calculadora de subneteo utilizando VLSM (Variable Length Subnet Masking) en Python. El programa permite calcular subredes a partir de una red base con un prefijo principal y subredes con prefijos variables. El objetivo es obtener detalles de las subredes generadas, como la dirección de red, máscara de red, rango de hosts, y más.
 
-##  Características
+## Funciones
 
--  Divide redes IP en subredes personalizadas.
--  Calcula rangos de hosts, máscaras y direcciones de broadcast.
--  Optimiza el uso de direcciones IP, eliminando desperdicio.
--  Interfaz simple e interactiva.
+### 1. Validación de IP
+Valida si la dirección IP proporcionada es válida.
 
----
-
-##  Requisitos
-
-- **Python 3.6+**
+```python
+def validar_ip(ip):
+    try:
+        ipaddress.IPv4Address(ip)
+        return True
+    except ValueError:
+        return False
