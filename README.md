@@ -110,19 +110,9 @@ Subred: Subred 1
 ## 8. DESARROLLADOR
 
 Nombre: Dan Ramos Reynaldo
-Contacto: [Correo/Redes Sociales]
 
 ## 9. LICENCIA
 
 Distribuido bajo Licencia MIT.
-
-## 10. CONTRIBUCIONES
-
-¡Contribuciones son bienvenidas! 
-- Reportar issues
-- Realizar pull requests
-- Sugerir mejoras
-
----
 
 ¡GRACIAS POR USAR LA CALCULADORA VLSM! 🌐🖥️
