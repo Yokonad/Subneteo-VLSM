@@ -48,7 +48,6 @@ def calcular_prefijo_desde_hosts(num_hosts):
 #### 3.1.3 Cálculo VLSM
 ```python
 def calcular_vlsm(ip_base, prefijo_principal, hosts_subredes):
-    # Genera subredes basadas en hosts necesarios
 ```
 
 ## 4. MODO DE USO
