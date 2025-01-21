@@ -97,7 +97,7 @@ def main():
         
         hosts_subredes = []
         for i in range(cantidad_subredes):
-            while True:
+            while True: 
                 try:
                     num_hosts = int(input(f"Ingrese la cantidad de hosts para la subred {i + 1}: "))
                     if num_hosts > 0:
