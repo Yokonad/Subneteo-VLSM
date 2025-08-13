@@ -1,15 +1,16 @@
-# CALCULADORA DE SUBNETEO VLSM
+# CALCULADORA DE REDES
 
 ## 1. DESCRIPCIÓN DEL PROYECTO
 
 ### 1.1 Objetivo
-Herramienta de subneteo VLSM (Variable Length Subnet Mask) que permite dividir redes IP de manera eficiente, calculando subredes automáticamente basadas en el número de hosts requeridos.
+Herramienta para el cálculo de subredes VLSM y enlaces punto a punto entre routers, permitiendo una gestión eficiente de direcciones IP.
 
 ### 1.2 Características Principales
-- Cálculo automático de prefijos
-- Validación de direcciones IP
-- División de redes con subredes de tamaños variables
-- Presentación detallada de información de subredes
+- Cálculo de subredes VLSM basado en hosts requeridos
+- Cálculo de enlaces punto a punto entre routers
+- Validación de direcciones IP y rangos
+- Cálculo automático de máscaras y wildcards
+- Presentación detallada de resultados
 
 ## 2. REQUISITOS TÉCNICOS
 
@@ -19,17 +20,30 @@ Herramienta de subneteo VLSM (Variable Length Subnet Mask) que permite dividir r
   * ipaddress
   * math
 
-### 2.2 Dependencias
-Instalar las dependencias con:
+### 2.2 Instalación
 ```
 pip install ipaddress
 ```
 
-## 3. ESTRUCTURA DEL CÓDIGO
+## 3. FUNCIONALIDADES
 
-### 3.1 Funciones Principales
+### 3.1 Calculadora VLSM
+- Cálculo de subredes basado en requerimientos de hosts
+- Asignación óptima de direcciones
+- Información detallada de cada subred
+- Validación de rangos y direcciones
 
-#### 3.1.1 Validación de IP
+### 3.2 Calculadora de Enlaces
+- Cálculo de subredes /30 para enlaces punto a punto
+- Asignación secuencial de direcciones
+- Información detallada de cada enlace
+- Validación de rangos disponibles
+
+## 4. ESTRUCTURA DEL CÓDIGO
+
+### 4.1 Funciones Principales
+
+#### Validación IP
 ```python
 def validar_ip(ip):
     try:
@@ -39,72 +53,59 @@ def validar_ip(ip):
         return False
 ```
 
-#### 3.1.2 Cálculo de Prefijo
+#### Cálculo de Prefijo VLSM
 ```python
 def calcular_prefijo_desde_hosts(num_hosts):
     return 32 - math.ceil(math.log2(num_hosts + 2))
 ```
 
-#### 3.1.3 Cálculo VLSM
+#### Cálculo de Wildcard
 ```python
-def calcular_vlsm(ip_base, prefijo_principal, hosts_subredes):
+def calcular_wildcard(mascara):
+    mascara_ip = ipaddress.IPv4Address(mascara)
+    wildcard = ipaddress.IPv4Address(int(mascara_ip) ^ 0xFFFFFFFF)
+    return str(wildcard)
 ```
 
-## 4. MODO DE USO
+## 5. MODO DE USO
 
-### 4.1 Pasos para Usar la Calculadora
-
-1. Ejecutar el script Python
+### 5.1 Calculadora VLSM
+1. Seleccionar opción 1 en el menú principal
 2. Ingresar dirección IP base
-3. Introducir prefijo principal de la red
-4. Especificar cantidad de subredes
-5. Indicar número de hosts para cada subred
+3. Especificar prefijo de red principal
+4. Indicar cantidad de subredes
+5. Definir hosts necesarios por subred
 
-### 4.2 Ejemplo de Ejecución
+### 5.2 Calculadora de Enlaces
+1. Seleccionar opción 2 en el menú principal
+2. Ingresar dirección IP base
+3. Especificar prefijo de red principal
+4. Indicar cantidad de enlaces
 
+## 6. EJEMPLOS
+
+### 6.1 Ejemplo VLSM
 ```
 Ingrese la dirección IP base: 192.168.1.0
 Ingrese el prefijo principal de la red: 24
-¿Cuántas subredes desea calcular?: 3
-Ingrese la cantidad de hosts para la subred 1: 50
-Ingrese la cantidad de hosts para la subred 2: 20
-Ingrese la cantidad de hosts para la subred 3: 10
+¿Cuántas subredes desea calcular?: 2
+Ingrese la cantidad de hosts para la subred 1: 100
+Ingrese la cantidad de hosts para la subred 2: 50
 ```
 
-## 5. DETALLES TÉCNICOS
-
-### 5.1 Algoritmo de Subneteo
-- Ordena subredes de mayor a menor número de hosts
-- Calcula prefijos automáticamente
-- Asigna direcciones de red secuencialmente
-- Optimiza uso de espacio de direcciones IP
-
-### 5.2 Validaciones
-- Rango de prefijos: 1 a 30
-- Direcciones IPv4 válidas
-- Número de hosts mayor a 0
-
-## 6. LIMITACIONES
-
-- Funciona solo con redes IPv4
-- Prefijos válidos entre 1 y 30
-- Calcula subredes de manera secuencial
-
-## 7. EJEMPLOS DE SALIDA
-
+### 6.2 Ejemplo Enlaces
 ```
-Resultados de la Calculadora de Subneteo VLSM:
-============================================================
-Subred: Subred 1
-  Dirección de red: 192.168.1.0
-  Máscara de red: 255.255.255.192
-  Prefijo: /26
-  Rango de hosts: 192.168.1.1 - 192.168.1.62
-  Broadcast: 192.168.1.63
-  Hosts necesarios: 50
-  Hosts disponibles: 62
-------------------------------------------------------------
+Ingrese la dirección IP base: 10.0.0.0
+Ingrese el prefijo principal de la red: 24
+¿Cuántos enlaces entre routers necesita?: 3
 ```
+
+## 7. LIMITACIONES
+
+- Soporte exclusivo para IPv4
+- Prefijos válidos: 1-30
+- Enlaces punto a punto usando /30
+- Procesamiento secuencial de subredes
 
 ## 8. DESARROLLADOR
 
@@ -112,6 +113,4 @@ Nombre: Dan Ramos Reynaldo
 
 ## 9. LICENCIA
 
-Distribuido bajo Licencia MIT.
-
-¡GRACIAS POR USAR LA CALCULADORA VLSM! 🌐🖥️
+Distribuido bajo Licencia MIT
