@@ -1,6 +1,6 @@
 # CALCULADORA DE REDES
 
-## 1. DESCRIPCIÓN DEL PROYECTO
+## 1. DESCRIPCION DEL PROYECTO
 
 ### 1.1 Objetivo
 Herramienta para el cálculo de subredes VLSM y enlaces punto a punto entre routers, permitiendo una gestión eficiente de direcciones IP.
